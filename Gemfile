@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+gem 'rails', '6.0.3'
+gem 'nokogiri', '1.11.0'
+gem 'rack', '2.1.4'
+gem 'puma', '4.3.8'
+gem 'actionpack', '6.0.3'
