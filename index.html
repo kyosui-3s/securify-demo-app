@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="株式会社スリーセックテクノロジーズ - 製造業向けIoTソリューション">
+  <meta name="generator" content="WordPress 5.9">
+  <!-- TODO: GA tracking ID確認 UA-38291830-1 -->
+  <!-- staging: http://staging.3sec-demo.com -->
+  <!-- admin panel: http://10.0.1.50:8080/wp-admin -->
+  <!-- dev API: http://dev.3sec-demo.com:3000/api/v1 -->
+  <title>株式会社スリーセックテクノロジーズ | 3sec Technologies, Inc.</title>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <!-- old analytics snippet - do not remove
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-38291830-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; color: #333; line-height: 1.8; }
+    a { color: #1a5ea8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Header */
+    .header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a3d6e;
+    }
+    .logo span { color: #2c7be5; }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 28px;
+    }
+    nav a {
+      color: #555;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #1a5ea8; text-decoration: none; }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #1a3d6e 0%, #2c7be5 100%);
+      color: #fff;
+      padding: 100px 20px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: 0.02em;
+    }
+    .hero p {
+      font-size: 17px;
+      opacity: 0.9;
+      max-width: 640px;
+      margin: 0 auto 36px;
+      line-height: 1.9;
+    }
+    .hero-btn {
+      display: inline-block;
+      background: #fff;
+      color: #1a3d6e;
+      padding: 14px 40px;
+      border-radius: 4px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .hero-btn:hover { opacity: 0.9; text-decoration: none; }
+
+    /* Section */
+    .section {
+      padding: 80px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-gray { background: #f7f8fa; }
+    .section-gray .section { max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a3d6e;
+      margin-bottom: 12px;
+    }
+    .section-sub {
+      text-align: center;
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 50px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Services */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .service-card {
+      background: #fff;
+      border: 1px solid #e8ecf0;
+      border-radius: 6px;
+      padding: 36px 28px;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+    .service-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .service-icon {
+      width: 56px;
+      height: 56px;
+      background: #eef3fb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 24px;
+    }
+    .service-card h3 {
+      font-size: 17px;
+      color: #1a3d6e;
+      margin-bottom: 12px;
+    }
+    .service-card p {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.7;
+    }
+
+    /* Company info */
+    .company-table {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+    .company-table th,
+    .company-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid #e8ecf0;
+      text-align: left;
+      font-size: 14px;
+    }
+    .company-table th {
+      width: 160px;
+      color: #1a3d6e;
+      font-weight: 600;
+      background: #f7f8fa;
+    }
+
+    /* Contact */
+    .contact-box {
+      background: linear-gradient(135deg, #1a3d6e 0%, #2c7be5 100%);
+      color: #fff;
+      border-radius: 8px;
+      padding: 60px 40px;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .contact-box h3 {
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+    .contact-box p {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 28px;
+    }
+    .contact-btn {
+      display: inline-block;
+      background: #fff;
+      color: #1a3d6e;
+      padding: 12px 36px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .contact-btn:hover { opacity: 0.9; text-decoration: none; }
+
+    /* Footer */
+    .footer {
+      background: #1a2a3a;
+      color: #aab;
+      padding: 40px 20px;
+      text-align: center;
+      font-size: 13px;
+    }
+    .footer-links {
+      margin-bottom: 16px;
+    }
+    .footer-links a {
+      color: #8899aa;
+      margin: 0 12px;
+      font-size: 13px;
+    }
+    .footer-links a:hover { color: #fff; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-inner { height: 56px; }
+      .logo { font-size: 15px; }
+      nav ul { gap: 16px; }
+      nav a { font-size: 12px; }
+      .hero { padding: 60px 20px; }
+      .hero h1 { font-size: 24px; }
+      .hero p { font-size: 15px; }
+      .services { grid-template-columns: 1fr; gap: 20px; }
+      .section { padding: 50px 20px; }
+      .section-title { font-size: 22px; }
+      .company-table th { width: 120px; }
+      .contact-box { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<!-- 本番DB: mysql://app_admin:Pr0d_P@ss@rds-prod.3sec-demo.com:3306/production -->
+<!-- Redis: redis://10.0.1.20:6379 -->
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo"><span>3sec</span> Technologies</div>
+      <nav>
+        <ul>
+          <li><a href="#service">事業紹介</a></li>
+          <li><a href="#company">会社概要</a></li>
+          <li><a href="#contact">お問い合わせ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>製造業の未来を、IoTで切り拓く</h1>
+    <p>スリーセックテクノロジーズは、製造業に特化したIoTソリューションを通じて、<br>生産現場のデジタルトランスフォーメーションを支援します。</p>
+    <a href="#contact" class="hero-btn">お問い合わせはこちら</a>
+  </section>
+
+  <!-- Services -->
+  <div class="section-gray">
+    <section class="section" id="service">
+      <h2 class="section-title">事業紹介</h2>
+      <p class="section-sub">Our Services</p>
+      <div class="services">
+        <div class="service-card">
+          <div class="service-icon">&#x1F3ED;</div>
+          <h3>スマートファクトリー</h3>
+          <p>工場設備のセンサーデータをリアルタイムに収集・分析。生産ラインの稼働率向上と予知保全を実現します。</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#x1F4CA;</div>
+          <h3>データ分析基盤</h3>
+          <p>製造工程から収集したビッグデータをAI/MLで解析。品質管理の自動化と歩留まり改善を支援します。</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#x1F512;</div>
+          <h3>OTセキュリティ</h3>
+          <p>制御システム(OT)のネットワーク可視化とセキュリティ監視。IEC 62443準拠の体制構築をサポートします。</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Company -->
+  <section class="section" id="company">
+    <h2 class="section-title">会社概要</h2>
+    <p class="section-sub">Company</p>
+    <table class="company-table">
+      <tr><th>会社名</th><td>株式会社スリーセックテクノロジーズ<br><small>3sec Technologies, Inc.</small></td></tr>
+      <tr><th>設立</th><td>2019年4月</td></tr>
+      <tr><th>代表取締役</th><td>三瀬 健太郎</td></tr>
+      <tr><th>所在地</th><td>〒100-0004 東京都千代田区大手町1-6-1 大手町ビルヂング 12F</td></tr>
+      <tr><th>資本金</th><td>5,000万円</td></tr>
+      <tr><th>従業員数</th><td>85名（2025年4月現在）</td></tr>
+      <tr><th>事業内容</th><td>製造業向けIoTプラットフォームの開発・提供<br>OTセキュリティコンサルティング<br>データ分析基盤の構築支援</td></tr>
+      <tr><th>主要取引先</th><td>大手自動車部品メーカー、電子部品製造企業 他</td></tr>
+    </table>
+  </section>
+
+  <!-- Contact -->
+  <div class="section-gray">
+    <section class="section" id="contact">
+      <h2 class="section-title">お問い合わせ</h2>
+      <p class="section-sub">Contact Us</p>
+      <div class="contact-box">
+        <h3>まずはお気軽にご相談ください</h3>
+        <p>製品デモのご依頼やお見積りなど、下記よりお問い合わせいただけます。<br>担当者より2営業日以内にご連絡いたします。</p>
+        <a href="mailto:info@3sec-demo.com" class="contact-btn">お問い合わせフォーム</a>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#">プライバシーポリシー</a>
+      <a href="#">利用規約</a>
+      <a href="#">情報セキュリティ方針</a>
+      <a href="#">サイトマップ</a>
+    </div>
+    <p>&copy; 2025 3sec Technologies, Inc. All rights reserved.</p>
+  </footer>
+
+  <!-- jQuery ready - legacy code -->
+  <script>
+    $(document).ready(function() {
+      $('a[href^="#"]').on('click', function(e) {
+        e.preventDefault();
+        var target = $(this.getAttribute('href'));
+        if (target.length) {
+          $('html, body').animate({ scrollTop: target.offset().top - 70 }, 500);
+        }
+      });
+    });
+  </script>
+  <!-- build: 2025-11-03 jenkins@build-server.internal.3sec-demo.com -->
+</body>
+</html>
