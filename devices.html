@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>デバイス管理 - IoT Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-gray-800 min-h-screen">
+
+  <!-- ヘッダー（緑系アクセント） -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        <a href="/index.html" class="font-bold text-lg text-emerald-700">&#x1F4F1; IoT Portal</a>
+        <nav class="flex gap-4 text-sm">
+          <a href="/dashboard.html" class="text-gray-500 hover:text-gray-800">ダッシュボード</a>
+          <a href="/devices.html" class="text-emerald-600 font-semibold border-b-2 border-emerald-500 pb-0.5">デバイス管理</a>
+          <a href="/firmware.html" class="text-gray-500 hover:text-gray-800">ファームウェア</a>
+          <a href="/settings.html" class="text-gray-500 hover:text-gray-800">設定</a>
+          <a href="/contact.html" class="text-gray-500 hover:text-gray-800">お問い合わせ</a>
+        </nav>
+      </div>
+      <a href="/login.html" class="text-sm text-gray-400 hover:text-gray-600">ログアウト</a>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-8">
+    <!-- タイトル＋アクション -->
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">デバイス管理</h1>
+        <p class="text-gray-500 text-sm mt-1">登録済みデバイス: 1,247台</p>
+      </div>
+      <div class="flex gap-3">
+        <input type="text" placeholder="デバイスを検索..." class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 w-64">
+        <button class="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 transition">+ デバイス追加</button>
+      </div>
+    </div>
+
+    <!-- フィルター -->
+    <div class="flex gap-2 mb-5">
+      <button class="px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">すべて (1,247)</button>
+      <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs">稼働中 (1,198)</button>
+      <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs">異常 (23)</button>
+      <button class="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs">オフライン (26)</button>
+    </div>
+
+    <!-- デバイステーブル -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="text-left px-5 py-3 font-semibold text-gray-600">デバイスID</th>
+            <th class="text-left px-5 py-3 font-semibold text-gray-600">名称</th>
+            <th class="text-left px-5 py-3 font-semibold text-gray-600">設置場所</th>
+            <th class="text-left px-5 py-3 font-semibold text-gray-600">ステータス</th>
+            <th class="text-left px-5 py-3 font-semibold text-gray-600">温度</th>
+            <th class="text-left px-5 py-3 font-semibold text-gray-600">FWバージョン</th>
+            <th class="text-left px-5 py-3 font-semibold text-gray-600">最終通信</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-3 font-mono text-xs text-gray-500">SEN-A0421</td>
+            <td class="px-5 py-3 font-medium">温度センサー #421</td>
+            <td class="px-5 py-3 text-gray-600">ライン A - Zone 4</td>
+            <td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-medium">異常</span></td>
+            <td class="px-5 py-3 text-red-600 font-semibold">89.2&deg;C</td>
+            <td class="px-5 py-3 text-gray-500">v2.1.3</td>
+            <td class="px-5 py-3 text-gray-400">2分前</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-3 font-mono text-xs text-gray-500">SEN-B0102</td>
+            <td class="px-5 py-3 font-medium">振動センサー #102</td>
+            <td class="px-5 py-3 text-gray-600">ライン B - Zone 1</td>
+            <td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium">正常</span></td>
+            <td class="px-5 py-3 text-gray-600">24.1&deg;C</td>
+            <td class="px-5 py-3 text-gray-500">v2.1.4</td>
+            <td class="px-5 py-3 text-gray-400">30秒前</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-3 font-mono text-xs text-gray-500">GW-EAST03</td>
+            <td class="px-5 py-3 font-medium">ゲートウェイ East-03</td>
+            <td class="px-5 py-3 text-gray-600">東棟 1F サーバールーム</td>
+            <td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-xs font-medium">復旧済</span></td>
+            <td class="px-5 py-3 text-gray-600">31.5&deg;C</td>
+            <td class="px-5 py-3 text-gray-500">v3.0.1</td>
+            <td class="px-5 py-3 text-gray-400">42分前</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-3 font-mono text-xs text-gray-500">SEN-C0055</td>
+            <td class="px-5 py-3 font-medium">湿度センサー #055</td>
+            <td class="px-5 py-3 text-gray-600">ライン C - Zone 2</td>
+            <td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium">正常</span></td>
+            <td class="px-5 py-3 text-gray-600">22.8&deg;C</td>
+            <td class="px-5 py-3 text-gray-500">v2.1.4</td>
+            <td class="px-5 py-3 text-gray-400">15秒前</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-3 font-mono text-xs text-gray-500">SEN-A0312</td>
+            <td class="px-5 py-3 font-medium">圧力センサー #312</td>
+            <td class="px-5 py-3 text-gray-600">ライン A - Zone 3</td>
+            <td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full bg-gray-200 text-gray-600 text-xs font-medium">オフライン</span></td>
+            <td class="px-5 py-3 text-gray-400">-</td>
+            <td class="px-5 py-3 text-gray-500">v2.0.8</td>
+            <td class="px-5 py-3 text-gray-400">3時間前</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-3 font-mono text-xs text-gray-500">SEN-D0089</td>
+            <td class="px-5 py-3 font-medium">流量センサー #089</td>
+            <td class="px-5 py-3 text-gray-600">ライン D - Zone 1</td>
+            <td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium">正常</span></td>
+            <td class="px-5 py-3 text-gray-600">26.3&deg;C</td>
+            <td class="px-5 py-3 text-gray-500">v2.1.4</td>
+            <td class="px-5 py-3 text-gray-400">5秒前</td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-3 font-mono text-xs text-gray-500">CAM-B0201</td>
+            <td class="px-5 py-3 font-medium">監視カメラ #201</td>
+            <td class="px-5 py-3 text-gray-600">ライン B - 入口</td>
+            <td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium">正常</span></td>
+            <td class="px-5 py-3 text-gray-600">28.1&deg;C</td>
+            <td class="px-5 py-3 text-gray-500">v1.5.2</td>
+            <td class="px-5 py-3 text-gray-400">1秒前</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ページネーション -->
+      <div class="px-5 py-4 border-t border-gray-100 flex justify-between items-center bg-gray-50">
+        <span class="text-xs text-gray-500">1 - 7 / 1,247件</span>
+        <div class="flex gap-1">
+          <button class="px-3 py-1 rounded bg-emerald-600 text-white text-xs">1</button>
+          <button class="px-3 py-1 rounded bg-gray-200 text-gray-600 text-xs">2</button>
+          <button class="px-3 py-1 rounded bg-gray-200 text-gray-600 text-xs">3</button>
+          <span class="px-2 py-1 text-gray-400 text-xs">...</span>
+          <button class="px-3 py-1 rounded bg-gray-200 text-gray-600 text-xs">179</button>
+          <button class="px-3 py-1 rounded bg-gray-200 text-gray-600 text-xs">&rarr;</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
