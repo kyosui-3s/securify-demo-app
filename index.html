@@ -253,12 +253,9 @@
       <div class="logo"><span>3sec</span> Technologies</div>
       <nav>
         <ul>
-          <li><a href="/login.html">ログイン</a></li>
-          <li><a href="/dashboard.html">ダッシュボード</a></li>
-          <li><a href="/devices.html">デバイス管理</a></li>
-          <li><a href="/firmware.html">ファームウェア</a></li>
-          <li><a href="/settings.html">設定</a></li>
-          <li><a href="/contact.html">お問い合わせ</a></li>
+          <li><a href="#service">事業紹介</a></li>
+          <li><a href="#company">会社概要</a></li>
+          <li><a href="#contact">お問い合わせ</a></li>
         </ul>
       </nav>
     </div>
@@ -268,8 +265,7 @@
   <section class="hero">
     <h1>製造業の未来を、IoTで切り拓く</h1>
     <p>スリーセックテクノロジーズは、製造業に特化したIoTソリューションを通じて、<br>生産現場のデジタルトランスフォーメーションを支援します。</p>
-    <a href="/dashboard.html" class="hero-btn">管理ポータルへ</a>
-    <a href="/contact.html" class="hero-btn" style="margin-left:16px; background:transparent; border:2px solid #fff; color:#fff;">お問い合わせ</a>
+    <a href="#contact" class="hero-btn">お問い合わせはこちら</a>
   </section>
 
   <!-- Services -->
@@ -318,10 +314,49 @@
     <section class="section" id="contact">
       <h2 class="section-title">お問い合わせ</h2>
       <p class="section-sub">Contact Us</p>
-      <div class="contact-box">
-        <h3>まずはお気軽にご相談ください</h3>
-        <p>製品デモのご依頼やお見積りなど、下記よりお問い合わせいただけます。<br>担当者より2営業日以内にご連絡いたします。</p>
-        <a href="mailto:info@3sec-demo.com" class="contact-btn">お問い合わせフォーム</a>
+      <div style="max-width:640px; margin:0 auto; background:#fff; border:1px solid #e8ecf0; border-radius:8px; padding:40px;">
+        <h3 style="font-size:18px; color:#1a3d6e; margin-bottom:8px;">製品デモ・お見積りのご依頼</h3>
+        <p style="font-size:13px; color:#888; margin-bottom:28px;">担当者より2営業日以内にご連絡いたします。</p>
+        <form id="contactForm" onsubmit="return handleContact(event)">
+          <div style="margin-bottom:20px;">
+            <label style="display:block; font-size:13px; font-weight:600; color:#1a3d6e; margin-bottom:6px;">代理店コード <span style="color:#e53e3e;">*</span></label>
+            <input type="text" id="dealerCode" name="dealer_code" placeholder="例: DLR-0001" required
+                   style="width:100%; padding:10px 14px; border:1px solid #d0d5dd; border-radius:4px; font-size:14px; outline:none;">
+            <p style="font-size:11px; color:#888; margin-top:4px;">契約時に発行された代理店コードを入力してください（DLR-XXXX 形式）</p>
+          </div>
+          <div style="margin-bottom:20px;">
+            <label style="display:block; font-size:13px; font-weight:600; color:#1a3d6e; margin-bottom:6px;">管理デバイス台数 <span style="color:#e53e3e;">*</span></label>
+            <input type="number" id="deviceCount" name="device_count" placeholder="1〜9999" min="1" max="9999" required
+                   style="width:100%; padding:10px 14px; border:1px solid #d0d5dd; border-radius:4px; font-size:14px; outline:none;">
+            <p style="font-size:11px; color:#888; margin-top:4px;">ご契約プランのデバイス上限数を入力してください（1〜9999台）</p>
+          </div>
+          <div style="margin-bottom:20px;">
+            <label style="display:block; font-size:13px; font-weight:600; color:#1a3d6e; margin-bottom:6px;">会社名</label>
+            <input type="text" name="company" placeholder="株式会社サンプル"
+                   style="width:100%; padding:10px 14px; border:1px solid #d0d5dd; border-radius:4px; font-size:14px; outline:none;">
+          </div>
+          <div style="margin-bottom:20px;">
+            <label style="display:block; font-size:13px; font-weight:600; color:#1a3d6e; margin-bottom:6px;">お名前</label>
+            <input type="text" name="name" placeholder="山田 太郎"
+                   style="width:100%; padding:10px 14px; border:1px solid #d0d5dd; border-radius:4px; font-size:14px; outline:none;">
+          </div>
+          <div style="margin-bottom:20px;">
+            <label style="display:block; font-size:13px; font-weight:600; color:#1a3d6e; margin-bottom:6px;">メールアドレス</label>
+            <input type="email" name="email" placeholder="yamada@example.com"
+                   style="width:100%; padding:10px 14px; border:1px solid #d0d5dd; border-radius:4px; font-size:14px; outline:none;">
+          </div>
+          <div style="margin-bottom:24px;">
+            <label style="display:block; font-size:13px; font-weight:600; color:#1a3d6e; margin-bottom:6px;">お問い合わせ内容</label>
+            <textarea name="message" rows="4" placeholder="ご質問やご要望をお書きください..."
+                      style="width:100%; padding:10px 14px; border:1px solid #d0d5dd; border-radius:4px; font-size:14px; outline:none; resize:vertical;"></textarea>
+          </div>
+          <div id="errorMsg" style="display:none; background:#fef2f2; border:1px solid #fecaca; color:#dc2626; padding:10px 14px; border-radius:4px; font-size:13px; margin-bottom:16px;"></div>
+          <div id="successMsg" style="display:none; background:#f0fdf4; border:1px solid #bbf7d0; color:#16a34a; padding:10px 14px; border-radius:4px; font-size:13px; margin-bottom:16px;">お問い合わせを受け付けました。担当者よりご連絡いたします。</div>
+          <button type="submit"
+                  style="width:100%; padding:12px; background:linear-gradient(135deg, #1a3d6e, #2c7be5); color:#fff; border:none; border-radius:4px; font-size:15px; font-weight:600; cursor:pointer;">
+            送信する
+          </button>
+        </form>
       </div>
     </section>
   </div>
@@ -348,6 +383,34 @@
         }
       });
     });
+
+    function handleContact(e) {
+      e.preventDefault();
+      var code = document.getElementById('dealerCode').value.trim();
+      var count = parseInt(document.getElementById('deviceCount').value, 10);
+      var errorMsg = document.getElementById('errorMsg');
+      var successMsg = document.getElementById('successMsg');
+      errorMsg.style.display = 'none';
+      successMsg.style.display = 'none';
+
+      // 代理店コード: DLR- で始まる4桁数字が必要
+      if (!/^DLR-\d{4}$/.test(code)) {
+        errorMsg.textContent = '代理店コードの形式が正しくありません。DLR-XXXX（Xは数字）の形式で入力してください。';
+        errorMsg.style.display = 'block';
+        return false;
+      }
+
+      // デバイス台数: 1〜9999 の範囲
+      if (isNaN(count) || count < 1 || count > 9999) {
+        errorMsg.textContent = '管理デバイス台数は1〜9999の範囲で入力してください。';
+        errorMsg.style.display = 'block';
+        return false;
+      }
+
+      // バリデーション通過
+      successMsg.style.display = 'block';
+      return false;
+    }
   </script>
   <!-- build: 2025-11-03 jenkins@build-server.internal.3sec-demo.com -->
 </body>
