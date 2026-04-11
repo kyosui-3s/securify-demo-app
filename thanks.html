@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お問い合わせ完了 | 3sec Technologies, Inc.</title>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <!-- TODO: 本番移行前にCSP設定を入れる -->
+  <!-- staging API: http://staging-api.3sec-demo.com:8080/v2 -->
+  <!-- Internal admin: http://10.0.1.50:9090/admin (user: sysadmin / pass: 3sec@dm1n!) -->
+  <!-- DB backup cron: scp root@10.0.1.30:/var/backups/mysql/*.sql.gz /mnt/backup/ -->
+  <!-- AWS S3: s3://3sec-iot-prod-backup/ (AKIA3SEC0EXAMPLE1KEY) -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif; color: #333; line-height: 1.8; }
+    a { color: #1a5ea8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .header {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+    .logo { font-size: 18px; font-weight: 700; color: #1a3d6e; }
+    .logo span { color: #2c7be5; }
+    nav ul { list-style: none; display: flex; gap: 28px; }
+    nav a { color: #555; font-size: 14px; font-weight: 500; }
+    .section { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+    .footer {
+      background: #1a2a3a;
+      color: #aab;
+      padding: 40px 20px;
+      text-align: center;
+      font-size: 13px;
+    }
+    .footer-links { margin-bottom: 16px; }
+    .footer-links a { color: #8899aa; margin: 0 12px; font-size: 13px; }
+    .footer-links a:hover { color: #fff; }
+    .card {
+      background: #fff;
+      border: 1px solid #e8ecf0;
+      border-radius: 8px;
+      padding: 36px;
+      margin-bottom: 24px;
+    }
+    .label { font-size: 13px; font-weight: 600; color: #1a3d6e; margin-bottom: 4px; }
+    .value { font-size: 14px; color: #555; margin-bottom: 16px; }
+    .success-banner {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      color: #fff;
+      padding: 48px 20px;
+      text-align: center;
+    }
+    .success-banner h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+    .success-banner p { font-size: 15px; opacity: 0.9; }
+    .inquiry-table { width: 100%; border-collapse: collapse; }
+    .inquiry-table th { text-align: left; padding: 12px 16px; background: #f7f8fa; color: #1a3d6e; font-size: 13px; font-weight: 600; border-bottom: 1px solid #e8ecf0; width: 140px; }
+    .inquiry-table td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid #e8ecf0; }
+    .btn { display: inline-block; padding: 10px 28px; border-radius: 4px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; }
+    .btn-primary { background: #1a3d6e; color: #fff; }
+    .btn-outline { background: #fff; color: #1a3d6e; border: 1px solid #d0d5dd; }
+    .form-input { width: 100%; padding: 10px 14px; border: 1px solid #d0d5dd; border-radius: 4px; font-size: 14px; outline: none; }
+    .tracking-id { font-family: monospace; font-size: 18px; color: #1a3d6e; font-weight: 700; letter-spacing: 0.05em; }
+  </style>
+</head>
+<!-- DEBUG: app_env=staging, feature_flag=new_dashboard_v2, session_secret=xK9#mP2$vL5nQ8 -->
+<!-- deploy: ansible-playbook -i inventory/prod site.yml --extra-vars "db_pass=Pr0d_P@ss2026!" -->
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo"><span>3sec</span> Technologies</div>
+      <nav>
+        <ul>
+          <li><a href="/index.html#service">事業紹介</a></li>
+          <li><a href="/index.html#company">会社概要</a></li>
+          <li><a href="/index.html#contact">お問い合わせ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Success Banner -->
+  <div class="success-banner">
+    <h1>お問い合わせを受け付けました</h1>
+    <p>担当者より2営業日以内にご連絡いたします。</p>
+  </div>
+
+  <div class="section">
+    <!-- お問い合わせ内容の確認 -->
+    <div class="card">
+      <h2 style="font-size:18px; color:#1a3d6e; margin-bottom:6px;">お問い合わせ内容</h2>
+      <p style="font-size:12px; color:#888; margin-bottom:20px;">受付番号: <span class="tracking-id" id="trackingId">INQ-20250411-0042</span></p>
+
+      <!-- VULN: Reflected XSS - URLパラメータをinnerHTMLで展開 -->
+      <table class="inquiry-table">
+        <tr><th>お名前</th><td id="display-name"></td></tr>
+        <tr><th>会社名</th><td id="display-company"></td></tr>
+        <tr><th>メールアドレス</th><td id="display-email"></td></tr>
+        <tr><th>代理店コード</th><td id="display-dealer"></td></tr>
+        <tr><th>お問い合わせ内容</th><td id="display-message"></td></tr>
+      </table>
+    </div>
+
+    <!-- 追加のお問い合わせフォーム（CSRF トークンなし） -->
+    <div class="card">
+      <h2 style="font-size:18px; color:#1a3d6e; margin-bottom:6px;">追加情報の送信</h2>
+      <p style="font-size:12px; color:#888; margin-bottom:20px;">補足資料や追加のご要望がございましたらこちらからお送りください。</p>
+      <!-- VULN: CSRF トークンなし、autocomplete制御なし -->
+      <form method="POST" action="/api/inquiry/update">
+        <input type="hidden" name="inquiry_id" id="hidden-inquiry-id" value="">
+        <div style="margin-bottom:16px;">
+          <label class="label">件名</label>
+          <input type="text" name="subject" class="form-input" placeholder="追加資料について">
+        </div>
+        <div style="margin-bottom:16px;">
+          <label class="label">補足内容</label>
+          <textarea name="detail" rows="4" class="form-input" placeholder="補足事項をご記入ください..."></textarea>
+        </div>
+        <div style="margin-bottom:16px;">
+          <label class="label">添付ファイルURL</label>
+          <!-- VULN: ユーザー入力URLをそのまま受け付ける（SSRF的） -->
+          <input type="url" name="attachment_url" class="form-input" placeholder="https://example.com/document.pdf">
+        </div>
+        <button type="submit" class="btn btn-primary">送信</button>
+      </form>
+    </div>
+
+    <!-- リダイレクトリンク -->
+    <div class="card" style="text-align:center;">
+      <p style="font-size:14px; color:#666; margin-bottom:16px;">ご不明点がございましたらお電話でもお受けしております。</p>
+      <p style="font-size:14px; margin-bottom:20px;">TEL: <strong>03-6810-XXXX</strong>（平日 9:00-18:00）</p>
+      <div style="display:flex; gap:12px; justify-content:center;">
+        <a href="/index.html" class="btn btn-outline">トップページへ戻る</a>
+        <!-- VULN: オープンリダイレクト - redirect パラメータで任意のURLに遷移可能 -->
+        <a id="partner-link" class="btn btn-primary" href="#">パートナーページへ</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#">プライバシーポリシー</a>
+      <a href="#">利用規約</a>
+      <a href="#">情報セキュリティ方針</a>
+      <a href="#">サイトマップ</a>
+    </div>
+    <p>&copy; 2025 3sec Technologies, Inc. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // URLパラメータを取得
+    var params = new URLSearchParams(window.location.search);
+
+    // VULN: Reflected XSS - URLパラメータをエスケープせずDOMに挿入
+    document.getElementById('display-name').innerHTML = params.get('name') || '-';
+    document.getElementById('display-company').innerHTML = params.get('company') || '-';
+    document.getElementById('display-email').innerHTML = params.get('email') || '-';
+    document.getElementById('display-dealer').innerHTML = params.get('dealer') || '-';
+    document.getElementById('display-message').innerHTML = params.get('message') || '-';
+
+    // 受付番号を動的生成（予測可能なID - IDOR的）
+    var now = new Date();
+    var tid = 'INQ-' + now.getFullYear() +
+              ('0' + (now.getMonth()+1)).slice(-2) +
+              ('0' + now.getDate()).slice(-2) + '-' +
+              ('0000' + Math.floor(Math.random() * 9999)).slice(-4);
+    document.getElementById('trackingId').textContent = tid;
+    document.getElementById('hidden-inquiry-id').value = tid;
+
+    // VULN: オープンリダイレクト - redirectパラメータで任意URLへ遷移
+    var redirectUrl = params.get('redirect') || params.get('next') || params.get('return_to');
+    if (redirectUrl) {
+      document.getElementById('partner-link').href = redirectUrl;
+    } else {
+      document.getElementById('partner-link').href = '/index.html#service';
+    }
+
+    // VULN: ページ上にユーザー情報をlocalStorageに平文保存
+    if (params.get('email')) {
+      localStorage.setItem('last_inquiry_email', params.get('email'));
+      localStorage.setItem('last_inquiry_dealer', params.get('dealer'));
+      localStorage.setItem('last_inquiry_name', params.get('name'));
+    }
+
+    // VULN: デバッグ用コンソール出力（機密情報漏洩）
+    console.log('[DEBUG] Inquiry submitted:', {
+      tracking_id: tid,
+      name: params.get('name'),
+      email: params.get('email'),
+      dealer_code: params.get('dealer'),
+      api_endpoint: 'https://api.3sec-demo.com/v1/inquiries',
+      api_key: 'sk-3sec-prod-api-2026-xK9mP2vL5nQ8'
+    });
+  </script>
+</body>
+</html>

@@ -325,12 +325,6 @@
             <p style="font-size:11px; color:#888; margin-top:4px;">契約時に発行された代理店コードを入力してください（DLR-XXXX 形式）</p>
           </div>
           <div style="margin-bottom:20px;">
-            <label style="display:block; font-size:13px; font-weight:600; color:#1a3d6e; margin-bottom:6px;">管理デバイス台数 <span style="color:#e53e3e;">*</span></label>
-            <input type="number" id="deviceCount" name="device_count" placeholder="1〜9999" min="1" max="9999" required
-                   style="width:100%; padding:10px 14px; border:1px solid #d0d5dd; border-radius:4px; font-size:14px; outline:none;">
-            <p style="font-size:11px; color:#888; margin-top:4px;">ご契約プランのデバイス上限数を入力してください（1〜9999台）</p>
-          </div>
-          <div style="margin-bottom:20px;">
             <label style="display:block; font-size:13px; font-weight:600; color:#1a3d6e; margin-bottom:6px;">会社名</label>
             <input type="text" name="company" placeholder="株式会社サンプル"
                    style="width:100%; padding:10px 14px; border:1px solid #d0d5dd; border-radius:4px; font-size:14px; outline:none;">
@@ -387,11 +381,8 @@
     function handleContact(e) {
       e.preventDefault();
       var code = document.getElementById('dealerCode').value.trim();
-      var count = parseInt(document.getElementById('deviceCount').value, 10);
       var errorMsg = document.getElementById('errorMsg');
-      var successMsg = document.getElementById('successMsg');
       errorMsg.style.display = 'none';
-      successMsg.style.display = 'none';
 
       // 代理店コード: DLR- で始まる4桁数字が必要
       if (!/^DLR-\d{4}$/.test(code)) {
@@ -400,15 +391,12 @@
         return false;
       }
 
-      // デバイス台数: 1〜9999 の範囲
-      if (isNaN(count) || count < 1 || count > 9999) {
-        errorMsg.textContent = '管理デバイス台数は1〜9999の範囲で入力してください。';
-        errorMsg.style.display = 'block';
-        return false;
-      }
-
-      // バリデーション通過
-      successMsg.style.display = 'block';
+      // バリデーション通過 → 確認ページへ遷移
+      var name = document.querySelector('[name="name"]').value || '';
+      var email = document.querySelector('[name="email"]').value || '';
+      var company = document.querySelector('[name="company"]').value || '';
+      var message = document.querySelector('[name="message"]').value || '';
+      window.location.href = '/thanks.html?name=' + encodeURIComponent(name) + '&email=' + encodeURIComponent(email) + '&company=' + encodeURIComponent(company) + '&message=' + encodeURIComponent(message) + '&dealer=' + encodeURIComponent(code);
       return false;
     }
   </script>
