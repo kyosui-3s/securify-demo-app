@@ -1,0 +1,5 @@
+[12-Oct-2026 01:14:22 UTC] PHP Notice:  Undefined variable: post_id in /var/www/html/wp-content/themes/twentytwentytwo/functions.php on line 88
+[12-Oct-2026 01:14:22 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/wp-content/plugins/contact-form-7/includes/functions.php:3) in /var/www/html/wp-includes/pluggable.php on line 1416
+[15-Oct-2026 09:02:51 UTC] WordPress database error Table 'wp_3sec.wp_cf7_log' doesn't exist for query SELECT * FROM wp_cf7_log WHERE form_id = 12 made by require('wp-blog-header.php'), wp, WP->main
+[20-Oct-2026 23:40:07 UTC] PHP Warning:  file_get_contents(http://10.0.1.50:8080/api/inventory): failed to open stream: Connection refused in /var/www/html/wp-content/themes/twentytwentytwo/inc/stock.php on line 31
+[27-Oct-2026 04:55:10 UTC] PHP Notice:  Undefined array key "dealer_code" in /var/www/html/wp-content/themes/twentytwentytwo/template-parts/contact.php on line 54
